@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <title>Мої правила здорового способу життя</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+      font-family: monospace, monospace;
+      color: #0f0;
+      position: relative;
+      height: 100vh;
+    }
+    canvas {
+      display: block;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+    }
+    .rules {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      margin: 40px auto;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px 30px;
+      border-radius: 10px;
+      line-height: 1.6;
+      font-size: 18px;
+      box-shadow: 0 0 10px #0f0;
+    }
+    .rules h1 {
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 24px;
+    }
+    .rules ul {
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+
+  <div class="rules">
+    <h1>Мої правила здорового способу життя:</h1>
+    <ul>
+      <li>Просипатися рано.</li>
+      <li>Спочатку пити воду.</li>
+      <li>Бути ближче до соціальних мереж (використовувати їх з користю).</li>
+      <li>Намагатися рухатися плавно.</li>
+      <li>Планувати пріоритетні справи.</li>
+      <li>Починати з найскладнішого завдання.</li>
+      <li>Записувати, за що я вдячний/вдячна.</li>
+      <li>Виходити в соціум, більше спілкуватися.</li>
+      <li>Ходити в зал.</li>
+      <li>Дбати про ментальне здоров’я: відпочивати, коли втомився/втомилась, і дозволяти собі паузи.</li>
+    </ul>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789абвгдеєжзийклмнопрстуфхцчшщьюя";
+    const fontSize = 16;
+    let columns = canvas.width / fontSize;
+    let drops = Array.from({ length: columns }, () => 1);
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#0F0";
+      ctx.font = `${fontSize}px monospace`;
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = symbols[Math.floor(Math.random() * symbols.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 35);
+  </script>
+</body>
+</html>
